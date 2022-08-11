@@ -1,30 +1,37 @@
+const lodash = require('lodash');
 const express = require('express');
-const _ = require('underscore')
-
 const abc = require('../introduction/intro')
-const loggerModule = require('../logger/logger.js')
-const formatterModule = require('../validator/formatter') 
-const helperModule = require('../util/helper')
 const router = express.Router();
+const first = require('../logger/logger')
+//const second = require('../introduction/util/')cd ..
+
+
+let arr =["january","february","march","April","may","jun","july","August","september","october","November","December"]
+let result= lodash.chunk(arr,3) 
+console.log(result)
+
+app.get("/sol2", function(req , res){
+
+})   
+
+router.get('/cohort-member', function (req, res) {
+    let students=["bikash",'aman',"hardik","rin2"]
+    res.send(students)
+})
+
 
 router.get('/test-me', function (req, res) {
     console.log('My batch is', abc.name)
     abc.printName()
-    loggerModule.printInfo()
-    formatterModule.trimMyString()
-    formatterModule.getUpperCaseString()
-    formatterModule.changetoLowerCase()
-    helperModule.getTodaysDate()
-    helperModule.getCurrentMonth()
-    helperModule.printBatchDetails()
-    let weekdend = ['Saturday','Sunday','Monday']
-    let result = _.first(weekdend, 2)
-    console.log('Unserscore example resultr is ',result)
+    first.welcome()   // welcome function ko call ker raha hu
+    second.printDate() 
     res.send('My second ever api!')
 });
 
 
-router.get('/test-you', function(req, res){
+
+
+router.post('/test-post-4', function(req, res){
     res.send('This is the second routes implementation')
 })
 
