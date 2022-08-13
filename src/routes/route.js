@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const UserController= require("../controllers/bookController")
+
 
 router.get('/students/:name', function(req, res) {
     let studentName = req.params.name
@@ -10,6 +12,11 @@ router.get('/students/:name', function(req, res) {
 router.get("/random" , function(req, res) {
     res.send("hi there")
 })
+
+
+
+
+
 
 
 router.get("/test-api" , function(req, res) {
@@ -31,7 +38,7 @@ router.get("/test-api-4" , function(req, res) {
     res.send("hi FunctionUp. This is another cool API. And NOw i am bored of creating API's. PLZ STOP CREATING MORE API;s ")
 })
 
-
+//1st Assignment
 let players =
    [
        {
@@ -62,7 +69,7 @@ let players =
     },
 ]
 
-// let players = []
+
 router.post('/players', function (req, res) {
     
     let newPlayer = req.body
@@ -83,48 +90,101 @@ router.post('/players', function (req, res) {
     }
 });
 
+//2 nd Assignment
+let booking = [
+    {
+        bookingNumber: 1,
+        bookingId: 12,
+        sportId: "",
+        centerId: "",
+        type: "private",
+        slot: "16286598000000",
+        bookedOn: "31/08/2021",
+        bookedFor: "01/09/2021",
+    },
+];
 
 
+router.post("/players/:playerName/bookings/:bookingId", function (req, res) {
+    let playerExist = false
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].name == req.params.playerName) {
+            playerExist = true
+        }
+    }
+    if (!playerExist) {
+        return res.send("This player does not exist")
+    }
+    for (let i = 0; i < booking.length; i++) {
+        if ((booking[i].bookingId == req.params.bookingId)) {
+            return res.send("This booking id already existed in Data");
+        }
+    }
+    req.body.playerName = req.params.playerName
+    req.body.bookingId = req.params.bookingId
+
+    booking.push(req.body);
+    return res.send(booking);
+});
+
+//3rd Assignment
+
+let persons = [
+    {
+      name : "PK",
+      age : 10,
+      votingstatus : false
+    },
+    {
+        name : "Sk",
+        age : 20,
+        votingstatus : false
+    },
+    {
+        name : "AA",
+        age : 70,
+        votingstatus : false
+    },
+    {
+        name : "SC",
+        age : 5,
+        votingstatus : false
+    },
+    {
+        name : "HQ",
+        age : 40,
+        votingstatus : false
+    }
+]
+router.post("/persons", function (req,res){
+
+let votingAge = req.query.votingAge
+    let result = []
+    for(let i =0; i<persons.length;i++){
+        let id = persons[i]
+        if(id.age>votingAge){
+            id.votingstatus=true
+             result.push(id)
+        }
+    }
+    
+    return res.send({data : result , status : true})
+
+});
 
 
+// const express = require('express');
+// // const router = express.Router();
+// const UserController= require("../controllers/bookController")
 
+router.get("/test-me", function (req, res) {
+    res.send("My first ever api!")
+})
 
+router.post("/createBooks", UserController.createBooks  )
 
-// router.get("/test-api-5" , function(req, res) {
-//     res.send("hi FunctionUp5. This is another cool API. And NOw i am bored of creating API's. PLZ STOP CREATING MORE API;s ")
-// })
+router.get("/getBooks", UserController.getBooks)
 
-// router.get("/test-api-6" , function(req, res) {
-//     res.send({a:56, b: 45})
-// })
+module.exports = router;
 
-// router.post("/test-post", function(req, res) {
-//     res.send([ 23, 45 , 6])
-// })
-
-
-// router.post("/test-post-2", function(req, res) {
-//     res.send(  { msg: "hi" , status: true }  )
-// })
-
-// router.post("/test-post-3", function(req, res) {
-//     // let id = req.body.user
-//     // let pwd= req.body.password
-
-//     // console.log( id , pwd)
-
-//     console.log( req.body )
-
-//     res.send(  { msg: "hi" , status: true }  )
-// })
-
-
-
-// router.post("/test-post-4", function(req, res) {
-//     let arr= [ 12, "functionup"]
-//     let ele= req.body.element
-//     arr.push(ele)
-//     res.send(  { msg: arr , status: true }  )
-// })
-
-// module.exports = router;
+ module.exports = router;
