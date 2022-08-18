@@ -8,8 +8,8 @@ const createBook= async function (req, res) {
 }
 //------------------------------------------------2--------------------------------------------//
 const booksList = async function (req, res) {
-    let allBooks= await BookModel.find().select({  _id : 0, bookName : 1 , authorName : 1 })
-    res.send({msg: allBooks})
+    let findauthor=await UserModel.find({author_name : "chetan Bhagat"});
+    let findbook=await BookModel.find({author_name : "chetan Bhagat"});
 }
 //------------------------------------------------3-------------------------------------------//
 const getBooksInYear = async function (req, res) {
